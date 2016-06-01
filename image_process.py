@@ -35,6 +35,6 @@ while (index + imagesPerRow <= len(filenames)):
 		print(filename)
 		currentImage = Image.open(pathToImages + "/" + filename)
 		scaleRatio = widthRatio * minHeight/currentImage.size[1]
-		currentImage.resize((int(currentImage.size[0] * scaleRatio), int(currentImage.size[1] * scaleRatio))).save(pathToThumbs + "/" + filename) 
+		currentImage.resize((int(currentImage.size[0] * scaleRatio), int(currentImage.size[1] * scaleRatio))).save(pathToThumbs + "/thumb" + str(i) + ".png", format="PNG", optimize=True)
 	
 	index = index + imagesPerRow
