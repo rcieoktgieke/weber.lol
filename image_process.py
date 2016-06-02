@@ -28,13 +28,41 @@ while (index + imagesPerRow <= len(filenames)):
 		filename = filenames[i]
 		currentImage = Image.open(pathToImages + "/" + filename)
 		width += currentImage.size[0] * (float(minHeight)/currentImage.size[1])
-
+	
+	imagesToAdd = 0
+	while width < totalWidth:
+		imagesToAdd += 1
+		filename = filenames[index + imagesPerRow + imagesToAdd]
+		currentImage = Image.open(pathToImages + "/" + filename)
+		width += currentImage.size[0] * (float(minHeight)/currentImage.size[1])
 	widthRatio = totalWidth/width
-	for i in range(index, index + imagesPerRow):
+
+	for i in range(index, index + imagesPerRow + imagesToAdd):
 		filename = filenames[i]
 		print(filename)
 		currentImage = Image.open(pathToImages + "/" + filename)
 		scaleRatio = widthRatio * minHeight/currentImage.size[1]
 		currentImage.resize((int(currentImage.size[0] * scaleRatio), int(currentImage.size[1] * scaleRatio))).save(pathToThumbs + "/thumb" + str(i) + ".png", format="PNG", optimize=True)
 	
-	index = index + imagesPerRow
+	index = index + imagesPerRow + imagesToAdd
+
+if index < len(filenames):
+	for i in range(index, len(filenames)):
+		filename = filenames[i]
+		currentImage = Image.open(pathToImages + "/" + filename)
+		if (minHeight == None or currentImage.size[1] < minHeight):
+			minHeight = currentImage.size[1]
+
+	width = 0.0
+	for i in range(index, len(filenames)):
+		filename = filenames[i]
+		currentImage = Image.open(pathToImages + "/" + filename)
+		width += currentImage.size[0] * (float(minHeight)/currentImage.size[1])
+
+	widthRatio = totalWidth/width
+	for i in range(index, len(filenames)):
+		filename = filenames[i]
+		print(filename)
+		currentImage = Image.open(pathToImages + "/" + filename)
+		scaleRatio = widthRatio * minHeight/currentImage.size[1]
+		currentImage.resize((int(currentImage.size[0] * scaleRatio), int(currentImage.size[1] * scaleRatio))).save(pathToThumbs + "/thumb" + str(i) + ".png", format="PNG", optimize=True)
