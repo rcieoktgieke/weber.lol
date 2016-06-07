@@ -5,7 +5,7 @@ require "rmagick"
 
 Dir.foreach("source/images/gallery") do |filename|
     next if filename == '.' or filename == '..' or filename == 'thumbs'
-    puts filename
+    #puts filename
     image = Magick::ImageList.new("source/images/gallery/" + filename)
     thumb = image.scale(0.1)
     thumb.write("source/images/gallery/thumbs/" + filename)

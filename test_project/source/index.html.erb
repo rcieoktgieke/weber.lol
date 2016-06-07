@@ -4,9 +4,9 @@ title: dope gallery
 
 <div class="welcome">
   <div class="logo">
-    <% Dir.foreach("source/images/gallery") do |filename|
+    <% Dir.foreach("source/images/gallery/thumbs") do |filename|
       next if filename == '.' or filename == '..' %>
-      <%= filename %>
+      <%= image_tag "gallery/thumbs/" + filename %>
     <% end %>
   </div>
   <h1>ur face</h1>
