@@ -3,13 +3,16 @@ title: dope gallery
 ---
 
 <div class="welcome">
-  <div class="logo">
-    <% Dir.foreach("source/images/gallery/thumbs") do |filename|
-      next if filename == '.' or filename == '..' %>
-      <%= image_tag "gallery/thumbs/" + filename %>
+  <div class="gallery">
+  <% config[:gallery].each do |row| %>
+    <div class="gallery-row">
+    <% row.each do |filename| %>
+      <%= image_tag config[:GALLERY_FOLDER] + "/" + config[:THUMBS_FOLDER] + "/" + filename %>
     <% end %>
+    </div>
+  <% end %>
   </div>
-  <h1>ur face</h1>
+  <h1>ur face 2</h1>
   <p class="doc">
     <%= link_to "Read Documentation Online", "https://middlemanapp.com", target: "_blank" %>
   </p><!-- .doc -->
