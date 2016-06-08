@@ -1,0 +1,33 @@
+function replaceGalleryImage(imageElement) {
+  //alert(imageElement.src);
+  alert(document.querySelector("src", imageElement.getAttribute("thumb-src").alt);
+}
+
+function loadGalleryImages(gallery) {
+  stagingDiv = document.getElementById("gallery-fullsize");
+  for (rowIndex = 0; rowIndex < gallery.length; rowIndex ++) {
+    for (colIndex = 0; colIndex < gallery[rowIndex].length; colIndex ++) {
+      filename = gallery[rowIndex][colIndex];
+      image = document.createElement("IMG");
+      image.setAttribute("src", "images/<%= config[:GALLERY_FOLDER] %>/" + filename);
+      image.setAttribute("thumb-src", "images/<%= config[:GALLERY_FOLDER] %>/<%= config[:THUMBS_FOLDER] %>/" + filename);
+      image.addEventListener("load", replaceGalleryImage(image));
+      //stagingDiv.innerHTML += "<img src=# my-src='images/<%= #config[:GALLERY_FOLDER] %>/" + filename + "'/>";
+      //stagingDiv.querySelector("[my-src='images/<%= #config[:GALLERY_FOLDER] %>/" + filename + "']").onload = replaceGalleryImage(stagingDiv.querySelector("[my-src='images/<%= #config[:GALLERY_FOLDER] %>/" + filename + "']"));
+      //stagingDiv.querySelector("[my-src='images/<%= #config[:GALLERY_FOLDER] %>/" + filename + "']").src = "images/<%= #config[:GALLERY_FOLDER] %>/" + filename;
+    }
+  }
+}
+
+var gallery = [ 
+  <% config[:gallery].each do |row| %>
+  [
+    <% row.each do |filename| %>
+      "<%= filename %>",
+    <% end %>
+  ],
+  <% end %>
+];
+window.onload = function () {
+  window.document.body.onload = loadGalleryImages(gallery);
+}
