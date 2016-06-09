@@ -22,11 +22,47 @@ function loadGalleryImages(galleryFilenames) {
       imageObject.setAttribute("width", thumb.width);
       imageObject.setAttribute("height", thumb.height);
       replaceImageWhenLoaded(imageObject, thumb);
+      imageObject.addEventListener("click", function (event) { enterGallery(event) });
       
+      gallery.push(imageObject);
+      thumbs.push(thumb); //extraneous?
       galleryIndex += 1;
     }
   }
 }
+
+function enterGallery(event) {
+  galleryOverlayDiv.style.backgroundColor = "rgba(0,0,0,.9)";
+
+  var overlayImage = event.target.cloneNode();
+  
+  var navBarHeight = 100;
+  var widthRatio = overlayImage.naturalWidth / galleryOverlayDiv.offsetWidth;
+  var heightRatio = overlayImage.naturalHeight / (window.innerHeight - navBarHeight);
+  var scaleRatio = 1;
+  if (widthRatio > heightRatio) {
+    scaleRatio = 1 / widthRatio;
+  }
+  else {
+    scaleRatio = 1 / heightRatio;
+  }
+  if (scaleRatio > 1) {
+    scaleRatio = 1;
+  }
+
+  var imageWidth = overlayImage.naturalWidth * scaleRatio;
+  var imageHeight = overlayImage.naturalHeight * scaleRatio;
+  var marginTop = ((window.innerHeight - navBarHeight) - imageHeight) / 2;
+
+  overlayImage.setAttribute("width", imageWidth);
+  overlayImage.setAttribute("height", imageHeight);
+  overlayImage.style.marginTop = marginTop.toString() + "px";
+  galleryOverlayDiv.appendChild(overlayImage);
+}
+
+gallery = [];
+thumbs = []; //extraneous?
+galleryOverlayDiv = null;
 
 var galleryFilenames = [ //assemble matrix of filenames from middleman config variable (same as  
   <% config[:gallery].each do |row| %>
@@ -40,5 +76,6 @@ var galleryFilenames = [ //assemble matrix of filenames from middleman config va
 
 //This is where the script begins to interact with the page
 window.onload = function () { //Wait for window to load
+  galleryOverlayDiv = document.getElementById("gallery-overlay-div");
   window.document.body.onload = loadGalleryImages(galleryFilenames); //Wait for body to load, then call function to load gallery images
 }
