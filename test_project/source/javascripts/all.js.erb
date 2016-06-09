@@ -32,7 +32,9 @@ function loadGalleryImages(galleryFilenames) {
 }
 
 function enterGallery(event) {
-  galleryOverlayDiv.style.backgroundColor = "rgba(0,0,0,.9)";
+  galleryOverlayDiv.style.animationFillMode = "forwards";
+  galleryOverlayDiv.style.animationDuration = ".5s";
+  galleryOverlayDiv.style.animationName = "overlay-fade";
 
   var overlayImage = event.target.cloneNode();
   
