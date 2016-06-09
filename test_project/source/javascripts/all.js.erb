@@ -1,38 +1,34 @@
-function insertImageWhenLoaded(imageElement, thumb) {
+function replaceImageWhenLoaded(imageObject, thumb) {
   setTimeout( function () {
-    if (!imageElement.complete) {
-      insertImageWhenLoaded(imageElement, thumb);
+    if (!imageObject.complete) {
+      replaceImageWhenLoaded(imageObject, thumb);
     }
     else {
-      thumb.parentElement.replaceChild(imageElement, thumb);
+      thumb.parentElement.replaceChild(imageObject, thumb);
     }
   }, 100);
 }
 
-function replaceGalleryImage(imageElement) {
-  thumb = document.getElementById("galleryIndex" + imageElement.getAttribute("gallery-index"));
-  //alert("Width: " + thumb.width);
-  imageElement.setAttribute("width", thumb.width);
-  //alert("Height: " + thumb.height);
-  imageElement.setAttribute("height", thumb.height);
-  insertImageWhenLoaded(imageElement, thumb);
-}
-
-function loadGalleryImages(gallery) {
-  galleryIndex = 0;
-  for (rowIndex = 0; rowIndex < gallery.length; rowIndex ++) {
-    for (colIndex = 0; colIndex < gallery[rowIndex].length; colIndex ++) {
-      filename = gallery[rowIndex][colIndex];
-      image = document.createElement("IMG");
-      image.setAttribute("src", "images/<%= config[:GALLERY_FOLDER] %>/" + filename);
-      image.setAttribute("gallery-index", galleryIndex);
-      image.addEventListener("loadend", replaceGalleryImage(image));
+//loadGalleryImages creates a DOM image object for each entry in the filename matrix given as a parameter. It assigns each object appropriate attributes, finds its thumbnail counterpart, and passes both to the replaceImageWhenLoaded function.
+function loadGalleryImages(galleryFilenames) {
+  var galleryIndex = 0;
+  for (var rowIndex = 0; rowIndex < galleryFilenames.length; rowIndex ++) {
+    for (var colIndex = 0; colIndex < galleryFilenames[rowIndex].length; colIndex ++) {
+      var filename = galleryFilenames[rowIndex][colIndex];
+      var imageObject = document.createElement("IMG");
+      imageObject.setAttribute("src", "images/<%= config[:GALLERY_FOLDER] %>/" + filename);
+      
+      var thumb = document.getElementById("galleryIndex" + galleryIndex);
+      imageObject.setAttribute("width", thumb.width);
+      imageObject.setAttribute("height", thumb.height);
+      replaceImageWhenLoaded(imageObject, thumb);
+      
       galleryIndex += 1;
     }
   }
 }
 
-var gallery = [ 
+var galleryFilenames = [ //assemble matrix of filenames from middleman config variable (same as  
   <% config[:gallery].each do |row| %>
   [
     <% row.each do |filename| %>
@@ -41,6 +37,8 @@ var gallery = [
   ],
   <% end %>
 ];
-window.onload = function () {
-  window.document.body.onload = loadGalleryImages(gallery);
+
+//This is where the script begins to interact with the page
+window.onload = function () { //Wait for window to load
+  window.document.body.onload = loadGalleryImages(galleryFilenames); //Wait for body to load, then call function to load gallery images
 }
