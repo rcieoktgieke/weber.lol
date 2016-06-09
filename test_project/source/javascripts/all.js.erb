@@ -1,20 +1,33 @@
+function insertImageWhenLoaded(imageElement, thumb) {
+  setTimeout( function () {
+    if (!imageElement.complete) {
+      insertImageWhenLoaded(imageElement, thumb);
+    }
+    else {
+      thumb.parentElement.replaceChild(imageElement, thumb);
+    }
+  }, 100);
+}
+
 function replaceGalleryImage(imageElement) {
-  //alert(imageElement.src);
-  alert(document.querySelector("src", imageElement.getAttribute("thumb-src").alt);
+  thumb = document.getElementById("galleryIndex" + imageElement.getAttribute("gallery-index"));
+  //alert("Width: " + thumb.width);
+  imageElement.setAttribute("width", thumb.width);
+  //alert("Height: " + thumb.height);
+  imageElement.setAttribute("height", thumb.height);
+  insertImageWhenLoaded(imageElement, thumb);
 }
 
 function loadGalleryImages(gallery) {
-  stagingDiv = document.getElementById("gallery-fullsize");
+  galleryIndex = 0;
   for (rowIndex = 0; rowIndex < gallery.length; rowIndex ++) {
     for (colIndex = 0; colIndex < gallery[rowIndex].length; colIndex ++) {
       filename = gallery[rowIndex][colIndex];
       image = document.createElement("IMG");
       image.setAttribute("src", "images/<%= config[:GALLERY_FOLDER] %>/" + filename);
-      image.setAttribute("thumb-src", "images/<%= config[:GALLERY_FOLDER] %>/<%= config[:THUMBS_FOLDER] %>/" + filename);
-      image.addEventListener("load", replaceGalleryImage(image));
-      //stagingDiv.innerHTML += "<img src=# my-src='images/<%= #config[:GALLERY_FOLDER] %>/" + filename + "'/>";
-      //stagingDiv.querySelector("[my-src='images/<%= #config[:GALLERY_FOLDER] %>/" + filename + "']").onload = replaceGalleryImage(stagingDiv.querySelector("[my-src='images/<%= #config[:GALLERY_FOLDER] %>/" + filename + "']"));
-      //stagingDiv.querySelector("[my-src='images/<%= #config[:GALLERY_FOLDER] %>/" + filename + "']").src = "images/<%= #config[:GALLERY_FOLDER] %>/" + filename;
+      image.setAttribute("gallery-index", galleryIndex);
+      image.addEventListener("loadend", replaceGalleryImage(image));
+      galleryIndex += 1;
     }
   }
 }

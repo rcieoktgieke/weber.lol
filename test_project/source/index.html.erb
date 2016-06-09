@@ -5,12 +5,14 @@ title: Example Curtiss Gallery
 <div class="welcome">
   <div id="gallery-fullsize">
   </div>
-  <div class="gallery">
-  <% config[:gallery].each do |row| %>
+  <div id="gallery">
+  <% galleryIndex = 0
+  config[:gallery].each do |row| %>
     <div class="gallery-row">
     <% row.each do |filename| %>
-      <%= image_tag config[:GALLERY_FOLDER] + "/" + config[:THUMBS_FOLDER] + "/" + filename %>
-    <% end %>
+      <%= image_tag config[:GALLERY_FOLDER] + "/" + config[:THUMBS_FOLDER] + "/" + filename, options = {"id" => "galleryIndex" + galleryIndex.to_s} %>
+      <% galleryIndex += 1
+    end %>
     </div>
   <% end %>
   </div>
