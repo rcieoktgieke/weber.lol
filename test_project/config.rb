@@ -6,8 +6,9 @@ require "rmagick"
 GALLERY_FOLDER = "gallery"
 THUMBS_FOLDER = "thumbs"
 TOTAL_WIDTH = 960
-IMAGES_PER_ROW = 4
+IMAGES_PER_ROW = 5
 IMAGE_MARGINS = 10
+WIDTH_ADJUSTMENT = 2.0 #to account for rounding
 
 gallery = []
 filenames = Dir.entries("source/images/" + GALLERY_FOLDER).select {|filename| filename != "." and filename != ".." and filename != THUMBS_FOLDER }
@@ -28,7 +29,7 @@ while index + IMAGES_PER_ROW <= filenames.length do
     currentImage = Magick::ImageList.new("source/images/" + GALLERY_FOLDER + "/" + filename)
     currentWidth = currentImage.first.columns
     currentHeight = currentImage.first.rows
-    width += currentWidth * minHeight/currentHeight
+    width += currentWidth * minHeight/currentHeight 
   end
 
   imagesToAdd = 0
@@ -38,10 +39,10 @@ while index + IMAGES_PER_ROW <= filenames.length do
     currentImage = Magick::ImageList.new("source/images/" + GALLERY_FOLDER + "/" + filename)
     currentWidth = currentImage.first.columns
     currentHeight = currentImage.first.rows
-    width += currentWidth * minHeight/currentHeight
+    width += currentWidth * minHeight/currentHeight 
   end
 
-  widthRatio = TOTAL_WIDTH/width
+  widthRatio = (TOTAL_WIDTH - WIDTH_ADJUSTMENT - (IMAGES_PER_ROW + imagesToAdd - 1) * IMAGE_MARGINS)/width
 
   row = []
   for i in index..index + IMAGES_PER_ROW + imagesToAdd - 1
@@ -75,7 +76,7 @@ if index < filenames.length
     width += currentWidth * minHeight/currentHeight
   end
 
-  widthRatio = TOTAL_WIDTH/width
+  widthRatio = (TOTAL_WIDTH - WIDTH_ADJUSTMENT - (filenames.length - index - 1) * IMAGE_MARGINS)/width
 
   row = []
   for i in index..filenames.length - 1
