@@ -3,20 +3,21 @@
 ###
 require "rmagick"
 
-@GALLERY_FOLDER = "gallery"
-@THUMBS_FOLDER = "thumbs"
+GALLERY_FOLDER = "gallery"
+THUMBS_FOLDER = "thumbs"
 TOTAL_WIDTH = 960
 IMAGES_PER_ROW = 4
+IMAGE_MARGINS = 10
 
-@gallery = []
-filenames = Dir.entries("source/images/" + @GALLERY_FOLDER).select {|filename| filename != "." and filename != ".." and filename != @THUMBS_FOLDER }
+gallery = []
+filenames = Dir.entries("source/images/" + GALLERY_FOLDER).select {|filename| filename != "." and filename != ".." and filename != THUMBS_FOLDER }
 
 index = 0
 while index + IMAGES_PER_ROW <= filenames.length do
   minHeight = nil
   for i in index..index + IMAGES_PER_ROW - 1
     filename = filenames[i]
-    currentImage = Magick::ImageList.new("source/images/" + @GALLERY_FOLDER + "/" + filename)
+    currentImage = Magick::ImageList.new("source/images/" + GALLERY_FOLDER + "/" + filename)
     currentHeight = currentImage.first.rows
     minHeight = currentHeight if (minHeight == nil or currentHeight < minHeight)
   end
@@ -24,7 +25,7 @@ while index + IMAGES_PER_ROW <= filenames.length do
   width = 0.0
   for i in index..index + IMAGES_PER_ROW - 1
     filename = filenames[i]
-    currentImage = Magick::ImageList.new("source/images/" + @GALLERY_FOLDER + "/" + filename)
+    currentImage = Magick::ImageList.new("source/images/" + GALLERY_FOLDER + "/" + filename)
     currentWidth = currentImage.first.columns
     currentHeight = currentImage.first.rows
     width += currentWidth * minHeight/currentHeight
@@ -34,7 +35,7 @@ while index + IMAGES_PER_ROW <= filenames.length do
   while width < TOTAL_WIDTH
     imagesToAdd += 1
     filename = filenames[index + IMAGES_PER_ROW + imagesToAdd]
-    currentImage = Magick::ImageList.new("source/images/" + @GALLERY_FOLDER + "/" + filename)
+    currentImage = Magick::ImageList.new("source/images/" + GALLERY_FOLDER + "/" + filename)
     currentWidth = currentImage.first.columns
     currentHeight = currentImage.first.rows
     width += currentWidth * minHeight/currentHeight
@@ -45,14 +46,14 @@ while index + IMAGES_PER_ROW <= filenames.length do
   row = []
   for i in index..index + IMAGES_PER_ROW + imagesToAdd - 1
     filename = filenames[i]
-    currentImage = Magick::ImageList.new("source/images/" + @GALLERY_FOLDER + "/" + filename)
+    currentImage = Magick::ImageList.new("source/images/" + GALLERY_FOLDER + "/" + filename)
     currentHeight = currentImage.first.rows
     scaleRatio = widthRatio * minHeight/currentHeight
     thumbnail = currentImage.scale(scaleRatio)
-    thumbnail.write("source/images/" + @GALLERY_FOLDER + "/" + @THUMBS_FOLDER + "/" + filename)
+    thumbnail.write("source/images/" + GALLERY_FOLDER + "/" + THUMBS_FOLDER + "/" + filename)
     row.push(filename)
   end
-  @gallery.push(row)
+  gallery.push(row)
 
   index = index + IMAGES_PER_ROW + imagesToAdd
 end
@@ -60,7 +61,7 @@ end
 if index < filenames.length
   for i in index..filenames.length - 1
     filename = filenames[i]
-    currentImage = Magick::ImageList.new("source/images/" + @GALLERY_FOLDER + "/" + filename)
+    currentImage = Magick::ImageList.new("source/images/" + GALLERY_FOLDER + "/" + filename)
     currentHeight = currentImage.first.rows
     minHeight = currentHeight if (minHeight == nil or currentHeight < minHeight)
   end
@@ -68,7 +69,7 @@ if index < filenames.length
   width = 0.0
   for i in index..filenames.length - 1
     filename = filenames[i]
-    currentImage = Magick::ImageList.new("source/images/" + @GALLERY_FOLDER + "/" + filename)
+    currentImage = Magick::ImageList.new("source/images/" + GALLERY_FOLDER + "/" + filename)
     currentWidth = currentImage.first.columns
     currentHeight = currentImage.first.rows
     width += currentWidth * minHeight/currentHeight
@@ -79,26 +80,28 @@ if index < filenames.length
   row = []
   for i in index..filenames.length - 1
     filename = filenames[i]
-    currentImage = Magick::ImageList.new("source/images/" + @GALLERY_FOLDER + "/" + filename)
+    currentImage = Magick::ImageList.new("source/images/" + GALLERY_FOLDER + "/" + filename)
     currentHeight = currentImage.first.rows
     scaleRatio = widthRatio * minHeight/currentHeight
     thumbnail = currentImage.scale(scaleRatio)
-    thumbnail.write("source/images/" + @GALLERY_FOLDER + "/" + @THUMBS_FOLDER + "/" + filename)
+    thumbnail.write("source/images/" + GALLERY_FOLDER + "/" + THUMBS_FOLDER + "/" + filename)
     row.push(filename)
   end
-  @gallery.push(row)
+  gallery.push(row)
 end
 
-@gallery.each do |row|
+gallery.each do |row|
   row.each do |filename|
     puts filename
   end
 end
 
 configure :build do
-  config[:gallery] = @gallery
-  config[:GALLERY_FOLDER] = @GALLERY_FOLDER
-  config[:THUMBS_FOLDER] = @THUMBS_FOLDER
+  config[:gallery] = gallery
+  config[:GALLERY_FOLDER] = GALLERY_FOLDER
+  config[:THUMBS_FOLDER] = THUMBS_FOLDER
+  config[:GALLERY_WIDTH] = TOTAL_WIDTH
+  config[:IMAGE_MARGINS] = IMAGE_MARGINS
 end
 
 # Per-page layout changes:

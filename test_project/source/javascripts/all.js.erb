@@ -22,7 +22,7 @@ function loadGalleryImages(galleryFilenames) {
       imageObject.setAttribute("width", thumb.width);
       imageObject.setAttribute("height", thumb.height);
       replaceImageWhenLoaded(imageObject, thumb);
-      imageObject.addEventListener("click", function (event) { enterGallery(event) });
+      imageObject.addEventListener("click", function (event) { openOverlay(event) });
       
       gallery.push(imageObject);
       thumbs.push(thumb); //extraneous?
@@ -31,13 +31,14 @@ function loadGalleryImages(galleryFilenames) {
   }
 }
 
-function enterGallery(event) {
+function openOverlay(event) {
+  galleryOverlayDiv.style.zIndex = "1";
   galleryOverlayDiv.style.animationFillMode = "forwards";
   galleryOverlayDiv.style.animationDuration = ".5s";
-  galleryOverlayDiv.style.animationName = "overlay-fade";
+  galleryOverlayDiv.style.animationName = "overlay-fadein";
 
   var overlayImage = event.target.cloneNode();
-  
+
   var navBarHeight = 100;
   var widthRatio = overlayImage.naturalWidth / galleryOverlayDiv.offsetWidth;
   var heightRatio = overlayImage.naturalHeight / (window.innerHeight - navBarHeight);
@@ -59,7 +60,18 @@ function enterGallery(event) {
   overlayImage.setAttribute("width", imageWidth);
   overlayImage.setAttribute("height", imageHeight);
   overlayImage.style.marginTop = marginTop.toString() + "px";
+
+  overlayImage.addEventListener("click", function () { closeOverlay() });
+
   galleryOverlayDiv.appendChild(overlayImage);
+}
+
+function closeOverlay() {
+  galleryOverlayDiv.innerHTML = "";
+  galleryOverlayDiv.style.animationFillMode = "forwards";
+  galleryOverlayDiv.style.animationDuration = ".5s";
+  galleryOverlayDiv.style.animationName = "overlay-fadeout";
+  setTimeout( function () { galleryOverlayDiv.style.zIndex = "-1"; }, 500);
 }
 
 gallery = [];
