@@ -1,0 +1,19 @@
+---
+title: Example Curtiss Gallery
+---
+
+<div class="welcome">
+  <div id="gallery">
+  <% galleryIndex = 0
+  config[:gallery].each do |row| %>
+    <div class="gallery-row">
+    <% row.each do |filename| %>
+      <%= image_tag config[:GALLERY_FOLDER] + "/" + config[:THUMBS_FOLDER] + "/" + filename, options = {"id" => "galleryIndex" + galleryIndex.to_s} %>
+      <% galleryIndex += 1
+    end %>
+    </div>
+  <% end %>
+  </div>
+  <div id="gallery-overlay-div"> </div>
+  <h1>THAT LOAD TIME THO!!!1!1</h1>
+</div><!-- .welcome -->
