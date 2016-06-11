@@ -6,7 +6,7 @@ require "rmagick"
 GALLERY_FOLDER = "gallery"
 THUMBS_FOLDER = "thumbs"
 TOTAL_WIDTH = 960
-IMAGES_PER_ROW = 5
+IMAGES_PER_ROW = 4
 IMAGE_MARGINS = 10
 WIDTH_ADJUSTMENT = 2.0 #to account for rounding
 

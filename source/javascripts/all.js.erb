@@ -74,6 +74,30 @@ function closeOverlay() {
   setTimeout( function () { galleryOverlayDiv.style.zIndex = "-1"; }, 500);
 }
 
+function scrollToHref(event) {
+  event.preventDefault();
+  var link = event.target;
+  var destination = document.getElementById(link.href.substring(link.href.indexOf("#") + 1, link.href.length));
+  scrollTo(document.body, destination.getBoundingClientRect().top - 100, 500);
+}
+
+//Smooth scrolling without jQuery courtesy of TimWolla on StackOverflow: http://stackoverflow.com/questions/8917921/cross-browser-javascript-not-jquery-scroll-to-top-animation (now significantly edited)
+function scrollTo(element, to, duration) {
+  if (duration <= 0) return;
+  var difference = to;
+  var perTick = difference / duration * 10;
+
+  keepScrolling(element, perTick, duration);
+}
+
+function keepScrolling(element, perTick, duration) {
+  setTimeout(function() {
+    element.scrollTop = element.scrollTop + perTick;
+    if (duration <= 0) return;
+    keepScrolling(element, perTick, duration - 10);
+  }, 10);
+}
+
 gallery = [];
 thumbs = []; //extraneous?
 galleryOverlayDiv = null;
@@ -91,5 +115,14 @@ var galleryFilenames = [ //assemble matrix of filenames from middleman config va
 //This is where the script begins to interact with the page
 window.onload = function () { //Wait for window to load
   galleryOverlayDiv = document.getElementById("gallery-overlay-div");
-  window.document.body.onload = loadGalleryImages(galleryFilenames); //Wait for body to load, then call function to load gallery images
+  window.document.body.onload = allOnload(galleryFilenames);
+}
+
+function allOnload(galleryFilenames) {
+  for (i = 0; i < document.links.length; i ++) {
+    if (document.links[i].href.includes("http://weber.lol/#")) {
+      document.links[i].addEventListener("click", function (event) { scrollToHref(event) });
+    }
+  }
+  loadGalleryImages(galleryFilenames); //Wait for body to load, then call function to load gallery images
 }
