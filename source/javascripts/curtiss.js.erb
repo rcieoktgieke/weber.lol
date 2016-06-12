@@ -5,8 +5,30 @@ function replaceImageWhenLoaded(imageObject, thumb) {
     }
     else {
       thumb.parentElement.replaceChild(imageObject, thumb);
+      var listThumb = imageObject.cloneNode();
+      listThumb.setAttribute("width", listThumb.width * (navBarHeight / listThumb.height));
+      listThumb.setAttribute("height", listThumb.height * (navBarHeight / listThumb.height));
+      
+      listThumb.addEventListener("click", function (event) { swapOverlayImage(event) });
+
+      var thumbList = document.getElementById("overlay-thumb-div").children;
+      var listThumbIndex = listThumb.getAttribute("galleryIndex");
+      for (i = 0; i < thumbList.length; i ++) {
+        if (listThumbIndex <  parseInt(thumbList[i].getAttribute("galleryIndex"))) {
+          document.getElementById("overlay-thumb-div").insertBefore(listThumb, thumbList[i]);
+          return;
+        }
+      }
+      document.getElementById("overlay-thumb-div").appendChild(listThumb);
     }
   }, 100);
+}
+
+function swapOverlayImage(event) {
+  event.stopPropagation();
+  var newOverlayImage = event.target.cloneNode();
+  document.getElementById("gallery-overlay-image-div").innerHTML = "";
+  setOverlayImage(newOverlayImage);
 }
 
 //loadGalleryImages creates a DOM image object for each entry in the filename matrix given as a parameter. It assigns each object appropriate attributes, finds its thumbnail counterpart, and passes both to the replaceImageWhenLoaded function.
@@ -17,6 +39,7 @@ function loadGalleryImages(galleryFilenames) {
       var filename = galleryFilenames[rowIndex][colIndex];
       var imageObject = document.createElement("IMG");
       imageObject.setAttribute("src", "images/<%= config[:GALLERY_FOLDER] %>/" + filename);
+      imageObject.setAttribute("galleryIndex", galleryIndex);
       
       var thumb = document.getElementById("galleryIndex" + galleryIndex);
       imageObject.setAttribute("width", thumb.width);
@@ -32,16 +55,21 @@ function loadGalleryImages(galleryFilenames) {
 }
 
 function openOverlay(event) {
+  event.stopPropagation();
   galleryOverlayDiv.style.zIndex = "1";
   galleryOverlayDiv.style.animationFillMode = "forwards";
   galleryOverlayDiv.style.animationDuration = ".5s";
   galleryOverlayDiv.style.animationName = "overlay-fadein";
 
-  var overlayImage = event.target.cloneNode();
+  document.getElementById("overlay-thumb-div").focus();
 
-  var navBarHeight = 100;
+  var overlayImage = event.target.cloneNode();
+  setOverlayImage(overlayImage);
+}
+
+function setOverlayImage(overlayImage) {
   var widthRatio = overlayImage.naturalWidth / galleryOverlayDiv.offsetWidth;
-  var heightRatio = overlayImage.naturalHeight / (window.innerHeight - navBarHeight);
+  var heightRatio = overlayImage.naturalHeight / (window.innerHeight - navBarHeight - 3 * <%= config[:IMAGE_MARGINS] %>);
   var scaleRatio = 1;
   if (widthRatio > heightRatio) {
     scaleRatio = 1 / widthRatio;
@@ -55,7 +83,7 @@ function openOverlay(event) {
 
   var imageWidth = overlayImage.naturalWidth * scaleRatio;
   var imageHeight = overlayImage.naturalHeight * scaleRatio;
-  var marginTop = ((window.innerHeight - navBarHeight) - imageHeight) / 2;
+  var marginTop = ((window.innerHeight - navBarHeight) - imageHeight) / 2 - <%= config[:IMAGE_MARGINS] %>;
 
   overlayImage.setAttribute("width", imageWidth);
   overlayImage.setAttribute("height", imageHeight);
@@ -63,20 +91,13 @@ function openOverlay(event) {
 
   overlayImage.addEventListener("click", function () { closeOverlay() });
 
-  galleryOverlayDiv.appendChild(overlayImage);
-}
-
-function closeOverlay() {
-  galleryOverlayDiv.innerHTML = "";
-  galleryOverlayDiv.style.animationFillMode = "forwards";
-  galleryOverlayDiv.style.animationDuration = ".5s";
-  galleryOverlayDiv.style.animationName = "overlay-fadeout";
-  setTimeout( function () { galleryOverlayDiv.style.zIndex = "-1"; }, 500);
+  document.getElementById("gallery-overlay-image-div").appendChild(overlayImage);
 }
 
 gallery = [];
 thumbs = []; //extraneous?
 galleryOverlayDiv = null;
+navBarHeight = <%= config[:OVERLAY_THUMB_HEIGHT] %>;
 
 var galleryFilenames = [ //assemble matrix of filenames from middleman config variable (same as  
   <% config[:gallery].each do |row| %>
@@ -91,5 +112,6 @@ var galleryFilenames = [ //assemble matrix of filenames from middleman config va
 //This is where the script begins to interact with the page
 window.onload = function () { //Wait for window to load
   galleryOverlayDiv = document.getElementById("gallery-overlay-div");
+  galleryOverlayDiv.addEventListener("click", function () { closeOverlay() });
   window.document.body.onload = loadGalleryImages(galleryFilenames); //Wait for body to load, then call function to load gallery images
 }

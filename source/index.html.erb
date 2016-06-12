@@ -1,19 +1,39 @@
 ---
-title: Example Curtiss Gallery
+title: Eric Weber
+layout: home
 ---
-
-<div class="welcome">
-  <div id="gallery">
-  <% galleryIndex = 0
-  config[:gallery].each do |row| %>
-    <div class="gallery-row">
-    <% row.each do |filename| %>
-      <%= image_tag config[:GALLERY_FOLDER] + "/" + config[:THUMBS_FOLDER] + "/" + filename, options = {"id" => "galleryIndex" + galleryIndex.to_s} %>
-      <% galleryIndex += 1
-    end %>
-    </div>
-  <% end %>
+<div id ="header">
+  <div id="menubar">
+    <p>ERIC WEBER</p>
+    <a href="#header" class="rotates">
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <span aria-hidden="true" class="rotates-sides">
+        <span class="front">HOME</span>
+        <span class="back">HOME</span>
+      </span>
+    </a>
+    <a href="#static-div" class="rotates">
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <span aria-hidden="true" class="rotates-sides">
+        <span class="front">WHY STATIC</span>
+        <span class="back">WHY STATIC</span>
+      </span>
+    </a>
+    <a href="curtiss.html" class="rotates">
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <span aria-hidden="true" class="rotates-sides">
+        <span class="front">CURTISS</span>
+        <span class="back">CURTISS</span>
+      </span>
+    </a>
   </div>
-  <div id="gallery-overlay-div"> </div>
-  <h1>THAT LOAD TIME THO!!!1!1</h1>
-</div><!-- .welcome -->
+</div>
+<div id="static-container-div">
+  <div id="static-div">
+    <h1>Why static?</h1>
+    <p>I am in good company when I claim that good design is based in simplicity. Steve Jobs said that "simple can be harder than complex... but it’s worth it in the end because once you get there, you can move mountains." It is abundantly evident that simple designs are desirable for end users; they are easier to understand, easier to use, and usually nicer to look at. It is less clear that the value of simplicity extends to the hidden parts of design. I would argue that it does. There are many times when the complex solution appears to be the only solution, but in these cases I find that revisiting your goal often reveals an entirely superior means to acheive it. Every design is the result of work by the designer, building upon the work of previous designers. In each iteration, there will be flaws. The surest way to prevent those flaws from surfacing is not to build layers of increasingly complicated failsafes on top of a design, but rather to simplify the design to rely on only the most basic parts of its dependancies. While this can require more effort, the end result is a faster, cleaner, and smaller design that is both more reliable and easier for the designer to unfaster, cleaner, and smaller design that is both more reliable and easier for the designer to understand.</p>
+    <p>Dynamic websites, which use Ruby, PHP, JavaScript, Python, or a multitude of other platforms, generate content for their users on a request-by-request basis. Because the server creates the page when the user sends a request, it can ensure that they will receive content that is up-to-date, or if it knows who the user is, content that is specifically made for that user. This is incredibly powerful; without it, sites like Facebook, Amazon, or PayPal could not exist, at least in any way remotely similar to the way they do today. In fact, any website that allows you to <u>do</u> anything is virtually required to be dynamic.</p>
+    <p>However, many websites (the vast majority, in my estimation) are not for doing anything. Rather, they are for seeing things. They are the books and the flyers and the signs of the internet. These are the local business websites you visit to find out if they take walk-ins or appointments. They are the pages with information about a festival or event you are interested in. They don't let you <u>do</u> anything, because that's not what they are for. These are static websites.</p>
+    <p>Static websites support no end-user features that are not also supported by dynamic sites. Everything they offer is for the web designers who make them. Specifically, static sites are much more predictable when it comes to styling and appearance. Web designers already have to try to predict how different browsers and different versions of browsers will interpret their code, as well as account for any reasonable dimensions their site may be rendered within. With static sites, designers can at least know their content will remain unchanged.</p> 
+  </div>
+</div>

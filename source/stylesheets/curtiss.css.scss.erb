@@ -1,0 +1,93 @@
+@charset "utf-8";
+@import "normalize";
+
+div#gallery-container-div {
+  width: 100%;
+  overflow: auto;
+}
+
+div#gallery {
+  width: <%= config[:GALLERY_WIDTH] %>px;
+  position: relative;
+  left: 50%;
+  margin-left: -<%= config[:GALLERY_WIDTH] / 2 %>px;
+}
+
+div#gallery-overlay-div {
+  position: fixed;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  z-index: -1;
+  background-color: rgba(0,0,0,.9);
+}
+
+div#gallery-overlay-div img {
+  margin-top: <%= config[:IMAGE_MARGINS] %>px;
+  cursor: pointer;
+}
+
+div#overlay-thumb-div {
+  position: fixed;
+  top: 100vh;
+  margin-top: -<%= config[:IMAGE_MARGINS] * 2 + config[:OVERLAY_THUMB_HEIGHT] %>px;
+  width: 100%;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+div.gallery-row img {
+  margin-bottom: <%= config[:IMAGE_MARGINS] %>px;
+}
+
+div.gallery-row:first-child img {
+  margin-top: 0px;
+}
+
+div.gallery-row img {
+  cursor: pointer;
+  display: block;
+  float: left;
+  margin-right: <%= config[:IMAGE_MARGINS] %>px;
+}
+
+div.gallery-row img:last-child {
+  margin-right: 0px;
+}
+
+@keyframes overlay-fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes overlay-fadeout {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@-webkit-keyframes welcome {
+  from {
+    -webkit-transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+   -webkit-transform: scale(0);
+   opacity: 0;
+  }
+  82.5% {
+    -webkit-transform: scale(1.03);
+    -webkit-animation-timing-function: ease-out;
+    opacity: 1;
+  }
+  to {
+    -webkit-transform: scale(1);
+  }
+}

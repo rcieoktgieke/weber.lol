@@ -3,78 +3,110 @@
 
 body {
   text-align: center;
-  font-family: "Shadows Into Light", cursive;
+  font-family: "Avenir Roman", "Trebuchet MS", Arial, sans-serif;
   font-size: 1em;
+  background-color: #E9D1BD;
 }
 
 h1 {
-  color: rgba(0,0,0,0.5);
-  font-family: "Shadows Into Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 1.8em;
-  font-weight: 400;
+  font-family: "Avenir Light", "Trebuchet MS", Arial, sans-serif;
+  color: #2A572D;
   margin: 0;
 }
 
-.welcome {
-  -webkit-animation-name: welcome;
-  -webkit-animation-duration: .9s;
+a {
+  text-decoration: none;
+  color: inherit;
+}   
+
+a:visited {
+  color: inherit;
 }
 
-div#gallery {
-  width: <%= config[:GALLERY_WIDTH] %>px;
+p {
+  font-family: "Avenir Light", "Trebuchet MS", Arial, sans-serif;
+  color: #2A572D;
 }
 
-#gallery-overlay-div {
+div#header {
+  width: 100%;
+  height: 92vh;
+  overflow: auto;
+  background-image: url("../images/early-spring2016-02.jpg");
+}
+
+div#menubar {
   position: fixed;
-  top: 0px;
+  width: 100%;
+  height: 100px;
+  overflow: auto;
+
+  color: #4B9950;
+  text-align: left;
+  z-index: 2;
+
+  background: black; /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(rgba(0,0,0,.85) 70%, rgba(0,0,0,.7) 80%, rgba(0,0,0,0) 100%); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(rgba(0,0,0,.85) 70%, rgba(0,0,0,.7) 80%, rgba(0,0,0,0) 100%); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(rgba(0,0,0,.85) 70%, rgba(0,0,0,.7) 80%, rgba(0,0,0,0) 100%); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(rgba(0,0,0,.85) 70%, rgba(0,0,0,.7) 80%, rgba(0,0,0,0) 100%); /* Standard syntax */
+}
+
+div#menubar p {
+  position: relative;
+  top: 25px;
+  color: #FF7700;
+  font-weight: bold;
+  padding-left: 40px;
+  padding-right: 20px;
+  display: inline;
+}
+
+/*Rotating menu boxes credit to David Walsh: https://davidwalsh.name/3d-menu*/
+
+a.rotates {
+  padding: 10px 10px;
+  perspective: 200px;
+  transition: all .07s linear;
+  position: relative;
+  top: 20px;
+
+  text-align: center;
+}
+
+.rotates-sides {
+  transition: all .3s ease-out;
+  transform: translatez(-25px);
+  transform-style: preserve-3d;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
   width: 100%;
   height: 100%;
-  background-color: transparent;
 }
 
-div.gallery-row img {
-  margin-top: <%= config[:IMAGE_MARGINS] %>px;
+.rotates:hover .rotates-sides, .rotates:focus .rotates-sides {
+  transform: translateZ(-25px) rotateX(90deg);
 }
 
-div.gallery-row:first-child img {
-  margin-top: 0px;
+.front {
+  transform: rotatex(0deg) translatez(25px);
 }
 
-div.gallery-row img {
-  cursor: pointer;
+.back {
+  transform: rotatex(-90deg) translatez(25px);
+}
+
+.front, .back {
   display: block;
-  float: left;
-  margin-right: <%= config[:IMAGE_MARGINS] %>px;
-}
-
-div.gallery-row img:last-child {
-  margin-right: 0px;
-}
-
-@keyframes overlay-fadein {
-  from {background-color: transparent;}
-  to {background-color: rgba(0,0,0,.9);}
-}
-@keyframes overlay-fadeout {
-  from {background-color: rgba(0, 0, 0, 0.9);}
-  to {background-color: transparent;}
-}
-
-@-webkit-keyframes welcome {
-  from {
-    -webkit-transform: scale(0);
-    opacity: 0;
-  }
-  50% {
-   -webkit-transform: scale(0);
-   opacity: 0;
-  }
-  82.5% {
-    -webkit-transform: scale(1.03);
-    -webkit-animation-timing-function: ease-out;
-    opacity: 1;
-  }
-  to {
-    -webkit-transform: scale(1);
-  }
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 15px 10px;
+  pointer-events: none;
+  box-sizing: border-box;
 }
