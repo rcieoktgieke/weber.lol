@@ -3,6 +3,8 @@
 ###
 require "rmagick"
 
+set :relative_links, true
+
 GALLERY_FOLDER = "gallery"
 THUMBS_FOLDER = "thumbs"
 TOTAL_WIDTH = 960
@@ -12,7 +14,6 @@ WIDTH_ADJUSTMENT = 2.0 #to account for rounding
 
 gallery = []
 filenames = Dir.entries("source/images/" + GALLERY_FOLDER).select {|filename| filename != "." and filename != ".." and filename != THUMBS_FOLDER }
-
 index = 0
 while index + IMAGES_PER_ROW <= filenames.length do
   minHeight = nil
@@ -22,7 +23,6 @@ while index + IMAGES_PER_ROW <= filenames.length do
     currentHeight = currentImage.first.rows
     minHeight = currentHeight if (minHeight == nil or currentHeight < minHeight)
   end
-
   width = 0.0
   for i in index..index + IMAGES_PER_ROW - 1
     filename = filenames[i]
@@ -31,7 +31,6 @@ while index + IMAGES_PER_ROW <= filenames.length do
     currentHeight = currentImage.first.rows
     width += currentWidth * minHeight/currentHeight 
   end
-
   imagesToAdd = 0
   while width < TOTAL_WIDTH
     imagesToAdd += 1
@@ -41,9 +40,7 @@ while index + IMAGES_PER_ROW <= filenames.length do
     currentHeight = currentImage.first.rows
     width += currentWidth * minHeight/currentHeight 
   end
-
   widthRatio = (TOTAL_WIDTH - WIDTH_ADJUSTMENT - (IMAGES_PER_ROW + imagesToAdd - 1) * IMAGE_MARGINS)/width
-
   row = []
   for i in index..index + IMAGES_PER_ROW + imagesToAdd - 1
     filename = filenames[i]
@@ -55,10 +52,8 @@ while index + IMAGES_PER_ROW <= filenames.length do
     row.push(filename)
   end
   gallery.push(row)
-
   index = index + IMAGES_PER_ROW + imagesToAdd
 end
-
 if index < filenames.length
   for i in index..filenames.length - 1
     filename = filenames[i]
@@ -66,7 +61,6 @@ if index < filenames.length
     currentHeight = currentImage.first.rows
     minHeight = currentHeight if (minHeight == nil or currentHeight < minHeight)
   end
-
   width = 0.0
   for i in index..filenames.length - 1
     filename = filenames[i]
@@ -75,9 +69,7 @@ if index < filenames.length
     currentHeight = currentImage.first.rows
     width += currentWidth * minHeight/currentHeight
   end
-
   widthRatio = (TOTAL_WIDTH - WIDTH_ADJUSTMENT - (filenames.length - index - 1) * IMAGE_MARGINS)/width
-
   row = []
   for i in index..filenames.length - 1
     filename = filenames[i]
@@ -90,7 +82,6 @@ if index < filenames.length
   end
   gallery.push(row)
 end
-
 gallery.each do |row|
   row.each do |filename|
     puts filename
@@ -103,6 +94,8 @@ configure :build do
   config[:THUMBS_FOLDER] = THUMBS_FOLDER
   config[:GALLERY_WIDTH] = TOTAL_WIDTH
   config[:IMAGE_MARGINS] = IMAGE_MARGINS
+  config[:WIDTH_ADJUSTMENT] = WIDTH_ADJUSTMENT
+  config[:OVERLAY_THUMB_HEIGHT] = 100
 end
 
 # Per-page layout changes:

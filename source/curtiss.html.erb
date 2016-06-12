@@ -1,0 +1,29 @@
+---
+title: Example Curtiss Gallery
+layout: curtiss
+---
+
+<div id="main">
+  <div class="welcome">
+    <div id="gallery-container-div">
+      <div id="gallery">
+      <% galleryIndex = 0
+      config[:gallery].each do |row| %>
+        <div class="gallery-row">
+        <% row.each do |filename| %>
+          <%= image_tag config[:GALLERY_FOLDER] + "/" + config[:THUMBS_FOLDER] + "/" + filename, options = {"id" => "galleryIndex" + galleryIndex.to_s} %>
+          <% galleryIndex += 1
+        end %>
+        </div>
+      <% end %>
+      </div>
+    </div>
+    <div id="gallery-overlay-div">
+      <div id="gallery-overlay-image-div"> </div>
+      <div id="overlay-thumb-div">
+        <div id="scroll-thumbs-left"></div>
+        <div id="scroll-thumbs-right-div"></div>
+      </div>
+    </div>
+  </div><!-- .welcome -->
+</div>
