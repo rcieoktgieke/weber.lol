@@ -2,6 +2,26 @@
 title: Eric Weber
 layout: home
 ---
+<div id="about-container-div">
+  <div id="about-div">
+    <h1>About</h1>
+    <h2>About Eric</h2>
+    <p>Eric is a 19-year-old human. That much is for sure. There are a few remarkable things about him: he was homeschooled until college, he danced ballet for 12 years, and the owners of his hometown ice cream parlor know his order. He is currently a rising Sophomore at Lafayette College in Easton, Pennsylvania, where he studies Electrical and Computer Engineering. He is among the leadership of four extracurricular organizations there: ACM (Association for Computer Machinery), WJRH (the college radio station), the Chorduroys (all-male a cappella), and the Arts Society. Eric considers music to be his most important hobby: he sings (choral, a cappella, and operatic have been his primary experiences), plays the violin (with an emphasis on jazz and improvisation), is self-taught on the piano, and plucks a guitar here and there.</p>
+    <h2>About this site</h2>
+    <p>This site mainly serves to purposes. Firstly, it makes good use of a number of wonderful domain names, namely weber.lol, eweber.me, and ericweber.me. These were just too good to pass up. Secondly, it provides a platform to display the Curtiss gallery managment system in its natural habitat. It is also meant to provide an easy starting place for Eric's future biographers, and as such will include links to various places where more information about him can be found, namely these:</p>
+    <ul>
+      <li>WJRH's website, <a href="https://github.com/wjrh/wjrh.org">wjrh.org</a>, which Eric has edited some amount and contributed <a href="http://www.wjrh.org/discocheerio">"content"</a> to.</li>
+      <li>Eric's fudge business (now closed) has a website(?) that can still be found here: <a href="http://fudgedconfections.com">fudgedconfections.com</a></li>
+      <li>That's about it for now.</li>
+    </ul>
+    <h2>About Curtiss</h2>
+    <p><a href="https://github.com/rcieoktgieke/Curtiss">Curtiss</a> is a gallery management system for static websites. To see a justification of static websites in general, please refer to the <a href="#static-div">Why static?</a> section below. Dynamic websites can easily manage image galleries, because their servers can make calculations based on the spacing of the rest of the content on the page at request time. This allows for advanced arrangements of images within the gallery. On static sites, this can be much more difficult, because while setting the dimensions of images one-by-one manually would be both practical and allow for visually pleasing results, making changes to the entire gallery each time an image is added or removed is completely impractical.</p>
+    <p>Curtiss provides the advanced rendering capabilties available with dynamic websites, but instead performs those operations during build-time. That way, the server is still made to do the mundane tasks, but all the benefits of a static site are still achievable. A massive side benefit of this approach is in thumbnail management: without quite excessive server load (in cases where servers generate new thumbnail files at each request), dynamic websites can only offer thumbnails with dimensions significantly larger than what is actually rendered. With the static Curtiss approach, thumbnails of the <u>exact</u> resolution can be generated with virtually no costs, simply because within each build of the website, images will only ever have one possible resolution in the gallery.</p>
+    <p>Improvements to Curtiss are still to be made; the front-end could benefit from much smooth UI, and the image processing script could be re-written using a library that has fewer issues (rmagick, the library currently used, apparently leaks memory like there's no tomorrow). However, as it is, Curtiss should hopefully provide a solution significantly better than any currently available for static sites. If you have any questions or concerns about it that you would like to bring to my attention, please refer to the <a href="#contact-div">Contact</a> section below.</p>
+    <h2>About the image script</h2>
+    <p>This could be completely wrong, but it appears that these days, the "load" and other such event listeners no longer are of any use in determining when an image has <u>actually</u> loaded, at least from the perspective of JavaScript. They appear to fire as soon as the brower is told to start loading the resource, instead of when the resource is fully loaded. So, I came up with a halfway-decent solution to this dilema using the "complete" property (which, unfortunately, does not appear to have any better performance in Firefox -- but it's Firefox so who cares?), and thought it ought to be made accessible on the web so that when someone does the same research I did to arrive at this conclusion, they can find this solution a little faster than I did. So I put it <a href="image.html">here</a> on my website.</p>
+  </div>
+</div>
 <div id="static-container-div">
   <div id="static-div">
     <h1>Why static?</h1>
@@ -9,5 +29,14 @@ layout: home
     <p>Dynamic websites, which use Ruby, PHP, JavaScript, Python, or a multitude of other platforms, generate content for their users on a request-by-request basis. Because the server creates the page when the user sends a request, it can ensure that they will receive content that is up-to-date, or if it knows who the user is, content that is specifically made for that user. This is incredibly powerful; without it, sites like Facebook, Amazon, or PayPal could not exist, at least in any way remotely similar to the way they do today. In fact, any website that allows you to <u>do</u> anything is virtually required to be dynamic.</p>
     <p>However, many websites (the vast majority, in my estimation) are not for doing anything. Rather, they are for seeing things. They are the books and the flyers and the signs of the internet. These are the local business websites you visit to find out if they take walk-ins or appointments. They are the pages with information about a festival or event you are interested in. They don't let you <u>do</u> anything, because that's not what they are for. These are static websites.</p>
     <p>Static websites support no end-user features that are not also supported by dynamic sites. Everything they offer is for the web designers who make them. Specifically, static sites are much more predictable when it comes to styling and appearance. Web designers already have to try to predict how different browsers and different versions of browsers will interpret their code, as well as account for any reasonable dimensions their site may be rendered within. With static sites, designers can at least know their content will remain unchanged.</p> 
+    <p>Some of the best benefits of static sites, however, come on the backend. Without needing to re-create the page for each visitor and each visit, the server load is drastically lighter. Additionally, keeping a site static makes it far easier to deploy mirrors to other servers. Each instance of the site is entirely self-contained; the files are all there, ready to be served, regardless of anything happening anywhere else. These benefits are why many companies, even tech giants, are beginning to move to static sites wherever possible. I think the most valuable insight to be gained from static sites is that the best tool is only ever the best tool for the job, and as the internet continues to diversify, the distinctions between different applications will drive clearer divisions between the tools available.
+  </div>
+</div>
+<div id="contact-container-div">
+  <div id="contact-div">
+    <h1>Contact Eric</h1>
+    <p>Gondorian beacons are prefered, but where those are unavailable or otherwise impractical, email, text, and phone are also available.<br />
+    <a href="mailto:eric@weber.lol">eric@weber.lol</a><br />
+    1 (925) 518-2633</p>
   </div>
 </div>

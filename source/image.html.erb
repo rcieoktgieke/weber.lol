@@ -1,0 +1,25 @@
+---
+title: Eric Weber
+layout: image
+---
+<div id="image-script-container-div">
+  <div id="image-script-div">
+    <h1>JavaScript Image Loading Dectection</h1>
+    <h2>A restatement of the purpose of this script:</h2>
+    <p>This could be completely wrong, but it appears that these days, the "load" and other such event listeners no longer are of any use in determining when an image has actually loaded, at least from the perspective of JavaScript. They appear to fire as soon as the brower is told to start loading the resource, instead of when the resource is fully loaded. So, I came up with a halfway-decent solution to this dilema using the "complete" property (which, unfortunately, does not appear to have any better performance in Firefox -- but it's Firefox so who cares?), and thought it ought to be made accessible on the web so that when someone does the same research I did to arrive at this conclusion, they can find this solution a little faster than I did.</p>
+    <h2>Documentation (to an extent) for the script:</h2>
+    <p>replaceImageWhenLoaded replaces a thumbnail image element (passed as thumb) with a full-size image element (passed as imageObject) when the latter has been fully loaded by the browser. To achieve this, it recursively calls itself ten times a second until the image.complete property is true.</p>
+    <p id="script-code">
+      function replaceImageWhenLoaded(imageObject, thumb) {<br />
+        &nbsp;&nbsp;setTimeout( function () {<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;if (!imageObject.complete) {<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;replaceImageWhenLoaded(imageObject, thumb);<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;else {<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thumb.parentElement.replaceChild(imageObject, thumb); //or your code here, if you want to do something other than replace thumbnails<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+        &nbsp;&nbsp;}, 100);<br />
+      }
+    </p>
+  </div>
+</div>

@@ -6,6 +6,18 @@ div#header {
   background-image: url("../images/early-spring2016-02.jpg");
 }
 
+div#about-container-div {
+  width: 100%;
+  text-align: center;
+}
+
+div#about-div {
+  width: <%= config[:GALLERY_WIDTH] %>px;
+  display: inline-block;
+  margin-top: 20px;
+  text-align: left;
+}
+
 div#static-container-div {
   width: 100%;
   text-align: center;
@@ -14,6 +26,17 @@ div#static-container-div {
 div#static-div {
   width: <%= config[:GALLERY_WIDTH] %>px;
   display: inline-block;
-  margin-top: 20px;
   text-align: left;
 }
+
+div#contact-container-div {
+  width: 100%;
+  text-align: center;
+}
+
+div#contact-div {
+  width: <%= config[:GALLERY_WIDTH] %>px;
+  display: inline-block;
+  text-align: left;
+}
+
