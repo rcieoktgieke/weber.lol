@@ -112,3 +112,17 @@ a.rotates {
   pointer-events: none;
   box-sizing: border-box;
 }
+
+@-moz-document url-prefix() {
+
+  .rotates:hover .rotates-sides, .rotates:focus .rotates-sides {
+    transform: translateZ(-25px) rotateX(84deg);
+  }
+  /* line 96, site.css.scss */
+  .front {
+    transform: rotatex(0deg) translatez(25px); }
+
+  /* line 100, site.css.scss */
+  .back {
+    transform: rotatex(-85deg) translatez(25px); }
+}

@@ -82,14 +82,22 @@ function openOverlay(event) {
   galleryOverlayDiv.style.animationDuration = galleryOverlayFadeDuration.toString() + "s";
   galleryOverlayDiv.style.animationName = "overlay-fadein";
 
-  var overlayImage = event.target.cloneNode();
-  setOverlayImage(overlayImage);
+  setOverlayImage(event);
 }
 
 //setOverlayImage scales the image passed to it such that it fills either the width of the galleryOverlayDiv or the height of the window minus the height of the thumbnail list minus three times the image margins used in the gallery (one for above the overlay image, one for between it and the thumbnail list, and one for below the thumbnail list), and then appends it to the gallery-overlay-image-div div. 
-function setOverlayImage(overlayImage) {
-  var widthRatio = overlayImage.naturalWidth / galleryOverlayDiv.offsetWidth;
-  var heightRatio = overlayImage.naturalHeight / (window.innerHeight - navBarHeight - 3 * <%= config[:IMAGE_MARGINS] %>);
+function setOverlayImage(event) {
+  var overlayImage = event.target.cloneNode();
+  var widthRatio;
+  var heightRatio;
+  if (!!window.sidebar) { //Case for Firefox
+    widthRatio = event.target.naturalWidth / galleryOverlayDiv.offsetWidth;
+    heightRatio = event.target.naturalHeight / (window.innerHeight - navBarHeight - 3 * 10);
+  }
+  else {
+    widthRatio = overlayImage.naturalWidth / galleryOverlayDiv.offsetWidth;
+    heightRatio = overlayImage.naturalHeight / (window.innerHeight - navBarHeight - 3 * 10);
+  }
   var scaleRatio = 1;
   if (widthRatio > heightRatio) {
     scaleRatio = 1 / widthRatio;
@@ -100,9 +108,17 @@ function setOverlayImage(overlayImage) {
   if (scaleRatio > 1) {
     scaleRatio = 1;
   }
-
-  var imageWidth = overlayImage.naturalWidth * scaleRatio;
-  var imageHeight = overlayImage.naturalHeight * scaleRatio;
+  
+  var imageWidth;
+  var imageHeight;
+  if (!!window.sidebar) { //Case for Firefox
+    imageWidth = event.target.naturalWidth * scaleRatio;
+    imageHeight = event.target.naturalHeight * scaleRatio;
+  }
+  else {
+    imageWidth = overlayImage.naturalWidth * scaleRatio;
+    imageHeight = overlayImage.naturalHeight * scaleRatio;
+  }
   var marginTop = ((window.innerHeight - navBarHeight) - imageHeight) / 2 - <%= config[:IMAGE_MARGINS] %>;
 
   overlayImage.setAttribute("width", imageWidth);
@@ -119,7 +135,7 @@ function swapOverlayImage(event) {
   event.stopPropagation();
   var newOverlayImage = event.target.cloneNode();
   document.getElementById("gallery-overlay-image-div").innerHTML = "";
-  setOverlayImage(newOverlayImage);
+  setOverlayImage(event);
 }
 
 //closeOverlay activates the galleryOverlayDiv fade out animation, waits for the duration of the animation, then sets the galleryOverlayDiv z-index to behind the gallery and clears the contents of the gallery-overlay-image-div div, namely the overlay image.
