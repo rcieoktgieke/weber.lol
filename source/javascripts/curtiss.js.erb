@@ -126,6 +126,7 @@ function setOverlayImage(event) {
   overlayImage.style.marginTop = marginTop.toString() + "px";
 
   overlayImage.addEventListener("click", function () { closeOverlay() });
+  overlayImage.addEventListener("touchstart", function (event) { detectSwipe(event) });
 
   document.getElementById("gallery-overlay-image-div").appendChild(overlayImage);
 }
@@ -147,4 +148,15 @@ function closeOverlay() {
     galleryOverlayDiv.style.zIndex = "-1";
     document.getElementById("gallery-overlay-image-div").innerHTML = ""; 
   }, galleryOverlayFadeDuration * 1000);
+}
+
+//MOBILE-FRIENDLY SECTION
+function detectSwipe(event) {
+  start = event.touches[0].screenX;
+  alert(start);
+  event.target.addEventListener("touchmove", function(event) { event.target.setAttribute("left", start + "px") });
+}
+
+function swipe(event, start) {
+  event.target.setAttribute("left", event.touches[0].screenX - start + "px");
 }

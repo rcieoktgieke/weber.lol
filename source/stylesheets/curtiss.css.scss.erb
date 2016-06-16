@@ -1,6 +1,5 @@
 @charset "utf-8";
 @import "normalize";
-
 /* The gallery-container-div div wraps all gallery content (not the overlay), and thus can be safely moved to any location on the pgae, and galley content can be expected to follow it. */
 div#gallery-container-div {
   width: 100%;
@@ -28,6 +27,7 @@ div#gallery-overlay-div {
 
 /* All gallery overlay images are given a top margin equal to the image margins specified in config.rb */
 div#gallery-overlay-div img {
+  position: relative;
   margin-top: <%= config[:IMAGE_MARGINS] %>px;
   cursor: pointer;
 }
@@ -87,25 +87,5 @@ div.gallery-row img:last-child {
   }
   to {
     opacity: 0;
-  }
-}
-
-/*Middleman's welcome animation is wrapped around the gallery-container-div div to make the page have pop. */
-@-webkit-keyframes welcome {
-  from {
-    -webkit-transform: scale(0);
-    opacity: 0;
-  }
-  50% {
-   -webkit-transform: scale(0);
-   opacity: 0;
-  }
-  82.5% {
-    -webkit-transform: scale(1.03);
-    -webkit-animation-timing-function: ease-out;
-    opacity: 1;
-  }
-  to {
-    -webkit-transform: scale(1);
   }
 }

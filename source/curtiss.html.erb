@@ -1,27 +1,24 @@
 ---
-title: Example Curtiss Gallery
+title: Eric Weber - Example Curtiss Gallery
 layout: curtiss
 ---
-
 <!-- Middleman uses layout files (in the layouts folder) to provide the basic HTML wrappers and links to stylesheets and scripts. The YAML frontmatter (above) can define a variety of attributes of the document, but in this case it only defines the title of the page. -->
 <!-- The Ruby below does two important things. Firstly, it reads the filename matrix (gallery) declared in config.rb and defined in curtiss_image_process.rb, creates a <div> of class row for each row in the matrix, and then generates an <img> tag for each filename in the row. Secondly, it increments a counter (galleryIndex) for each operation, which it then passes to the <img> as part of its id. This becomes very important in the JavaScript. -->
-<div class="welcome">
-  <div id="gallery-container-div">
-    <div id="gallery">
-    <% galleryIndex = 0
-    config[:gallery].each do |row| %>
-      <div class="gallery-row">
-      <% row.each do |filename| %>
-        <%= image_tag config[:GALLERY_FOLDER] + "/" + config[:THUMBS_FOLDER] + "/" + filename, options = {"id" => "galleryIndex" + galleryIndex.to_s} %>
-        <% galleryIndex += 1
-      end %>
-      </div>
-    <% end %>
+<div id="gallery-container-div">
+  <div id="gallery">
+  <% galleryIndex = 0
+  config[:gallery].each do |row| %>
+    <div class="gallery-row">
+    <% row.each do |filename| %>
+      <%= image_tag config[:GALLERY_FOLDER] + "/" + config[:THUMBS_FOLDER] + "/" + filename, options = {"id" => "galleryIndex" + galleryIndex.to_s} %>
+      <% galleryIndex += 1
+    end %>
     </div>
+  <% end %>
   </div>
-  <div id="gallery-overlay-div">
-    <div id="gallery-overlay-image-div"> </div>
-    <div id="overlay-thumb-div" class="dragscroll"> <!-- The dragscroll class is used by the dragscroll plugin, which (rather nicely) has no further interaction with any of the source, nor does any of the source need to contribute anything to making the this <div> draggable. -->
-    </div>
+</div>
+<div id="gallery-overlay-div">
+  <div id="gallery-overlay-image-div"> </div>
+  <div id="overlay-thumb-div" class="dragscroll"> <!-- The dragscroll class is used by the dragscroll plugin, which (rather nicely) has no further interaction with any of the source, nor does any of the source need to contribute anything to making the this <div> draggable. -->
   </div>
-</div><!-- .welcome -->
+</div>
